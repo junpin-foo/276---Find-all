@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lan="en">
+
+<head>
+    <link rel="stylesheet" href="../stylesheets/homeSeller.css" >
+    <script type="text/javascript" src="../homeSeller.js" defer> </script>
+    <title>Home: Seller</title>
+</head>
+
+<body >
+
+    <header>
+        <div class="container">
+          <h1 class="logo"></h1>
+          <nav>
+            <ul th:each="UserId : ${UserId}">
+              <li><a th:href="@{/Home/{uid}(uid=${UserId.getUserID()})}">Home</a></li>
+              <li><a th:href="@{/About/{uid}(uid=${UserId.getUserID()})}">About</a></li>
+              <li><a th:href="@{/ShoppingList/{uid}(uid=${UserId.getUserID()})}">Shoppinglist</a></li>
+              <li><a id="log" th:href="@{/Login/{uid}(uid=${UserId.getUserID()})}">Login</a></li>
+              <li><a th:href="@{/Search/{uid}(uid=${UserId.getUserID()})}">Search</a></li>
+              <li><a th:href="@{/Messages/{uid}(uid=${UserId.getUserID()})}">Messages</a></li>
+              <li><a th:href="@{/PopularTime/{uid}(uid=${UserId.getUserID()})}">Search Store</a></li>
+            </ul>
+          </nav>
+        </div>
+      </header>
+      <div class="WhiteBox" th:each = "UserName : ${UserName}">
+        <h2>Welcome Seller,</h2><h2 th:utext="${UserName.getUsername()}"></h2>
+        <div class="GreyBox">
+        
+            <h3>All Your Listed Items</h3>
+            <div>
+              <table class="TableFormat" id="Table">
+                <thead>
+                    <tr class="RowOne">
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Stock</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tbody>
+                        <tr th:each="record : ${records}">
+                            <td><a href="#"  th:each="id : ${UserId}" th:href="@{/HomeSellerItem/{pid}/{uid}(uid=${record.getID()},pid=${id.getUserID()})}" th:utext="${record.getName()}"></a></td>
+                            <td th:utext="${record.getCategory()}"></td>
+                            <td th:utext="${record.getStock()}"></td>
+                        </tr>
+                    </tbody>
+                </tbody>
+              </table>
+            </div>
+          
+            <h3>Add an Item For Sale</h3> 
+            <div class="listingBox" >
+              <form method="post" action ="#" th:each="id : ${UserId}" th:action="@{/afterSubmitNewItem/{uid}(uid=${id.getUserID()})}" th:object="${Item}" enctype="multipart/form-data" > <!-- enctype="multipart/form-data"-->
+                
+                    <input type="text" th:field=*{Name} placeholder="Product Name" id="gettingName" class="sameSize" onkeyup="nameUpdate()"><br><br>
+                    <select  th:field = *{Category} class="categoryBox">
+                        <option value=""  selected hidden style="color: gray;">Choose Category..</option>
+                        <option value="Electronics" >Electronics</option>
+                        <option value="Food">Food</option>
+                        <option value="Kitchen">Kitchen</option>
+                        <option value="Furniture">Furniture</option>
+                        <option value="Miscellaneous">Miscellaneous</option>
+                    </select><br><br>
+
+                    <input type="number" th:field=*{Price} onkeyup="priceUpdate()" id="gettingPrice" step="any" placeholder="Price per Unit" class="sameSize" min="0"><br><br>
+
+
+                    <textarea name="description" onkeyup="descriptionUpdate()" cols="30" rows="10" id="gettingDescription" style="width: 300px; height: 200px; font-size: 20px;" placeholder="Enter a Description of the Item" th:field = *{Description}></textarea><br><br>
+                                        
+                    <input type="number" th:field=*{Stock} placeholder="Number of Units in Stock" class="sameSize" min="1"><br>
+
+                     <!-- <p class="listingHeading">Upload Image of Item:</p>
+                    <input type="file" name="file" id="file"  accept= "image/*" class="sameSize" onchange="putImage()"><br>
+                    <br> -->
+                    
+                    <input type="submit" value="Add New Item" class="button">
+               
+              </form>
+            </div>
+            
+            <div class="nextToListingBox" >
+              <p style="font-size: 30px; padding: 0%;">Item Preview</p>
+              <div class="liveUpdate">
+                <h3 id="titleplaceholder" class="listingsize" >Name: </h3>
+                <h3 id="priceplaceholder" class="listingsize">Price: </h3>
+                
+                <h3 class="listingsize">Description: </h3>
+                <p id="descriptionplaceholder" class="descriptionsize"> </p>
+
+              </div>
+              <br>
+              <br>
+              
+          </div>
+          
+
+        </div>
+      </div>
+      
+
+</body>
+
+
+</html>

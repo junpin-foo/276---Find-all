@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lan="en"> <!-- renamed to Item page, used to be myPage -->
+
+<head>
+    <link rel="stylesheet" href="../public/stylesheets/myPage.css" th:href="@{/myPage.css}">
+    <title>Item</title>
+</head>
+
+<body>
+    <header>
+        <div class="container" >
+          <h1 class="logo" th:each="retUserId : ${retUserId}"></h1>
+          <nav >
+            <ul >
+              <li><a th:href="@{/Home/{uid}(uid=${retUserId.getUserID()})}" >Home</a></li>
+              <li><a th:href="@{/About/{uid}(uid=${retUserId.getUserID()})}">About</a></li>
+              <li><a th:href="@{/ShoppingList/{uid}(uid=${retUserId.getUserID()})}">Shoppinglist</a></li>
+              <li><a id ="log" th:href="@{/Login/{uid}(uid=${retUserId.getUserID()})}">Login</a></li>
+              <li><a th:href="@{/Search/{uid}(uid=${retUserId.getUserID()})}">Search</a></li>
+              <li><a th:href="@{/Messages/{uid}(uid=${retUserId.getUserID()})}">Messages</a></li>
+              <li><a th:href="@{/PopularTime/{uid}(uid=${retUserId.getUserID()})}">Search Store</a></li>
+            </ul>
+          </nav>
+        </div>
+      </header>
+    <div class="WhiteBox">
+
+        <h2>Item Profile Page</h2>
+        <div class="GreyBox">
+
+            <div>
+                <!-- add your image here -->
+            </div>
+
+
+            <table th:each="record : ${retItem}" class ="TableFormat">
+                
+                <tr>
+                    <th class= "RowOne">Name</th>
+                    <td th:utext="${record.getName()}" id="nameIn"></td>
+                </tr>
+                <tr>
+                    <th class= "RowOne">Description</th>
+                    <td th:utext="${record.getDescription()}" id="descriptionIn"></td>
+                </tr>
+                <tr>
+                    <th class= "RowOne">Category</th>
+                    <td th:utext="${record.getCategory()}" id="categoryIn"></td>
+                </tr>
+                <tr>
+                    <th class= "RowOne">Price</th>
+                    <td th:utext="${record.getPrice()}" id="priceIn"></td>
+                </tr>
+                <tr>
+                    <th class= "RowOne">Stock</th>
+                    <td th:utext="${record.getStock()}" id="stockIn"></td>
+                </tr>
+            </table>
+
+            <iframe name="votar" style="display:none;"></iframe>
+            <div id = "outer" th:each="record : ${retItem}">
+                <form>
+                    <input type="button"  th:each="id : ${retUserId}" class="btn" value="Back" th:onclick="'window.location.href = \'' + @{/Search/{uid}(uid=${id.getUserID()})} + '\''">
+                </form>
+                <form action="#" method="post" th:each="id : ${retUserId}" th:action="@{/AddToShoppingListMyItem/{pid}/{uid}(uid=${record.getID()},pid=${id.getUserID()})}" target = "votar">
+                    <input type="submit" class="btnAdd" value="Add to Shopping List"></td>
+                </form>
+                <form action="#" method="post" th:each="id : ${retUserId}" th:action="@{/ContactSeller/{pid}/{uid}(uid=${record.getID()},pid=${id.getUserID()})}">
+                    <input type="submit" class="btnAdd" value="Contact Seller"></td>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</body>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+        //dom is fully loaded, but maybe waiting on images & css files
+        var links=document.getElementById("log").href;
+        console.log(links);
+        var length =links.length;
+        var lastelement = links[length-1];
+        console.log(lastelement);
+        
+        if(lastelement == null){
+            lastelement = 0;
+        }else{
+            if(parseInt(lastelement) > 0){
+            document.getElementById("log").href = "/logout/" + lastelement;
+            document.getElementById("log").innerHTML = "Logout";
+        }
+    }
+    });
+</script>
+
+</html>

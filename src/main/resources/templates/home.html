@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lan="en">
+
+<head>
+    <link rel="stylesheet" href="../stylesheets/home.css">
+    <script type="text/javascript" src="../logout.js"> defer</script>
+    <title>Home</title>
+</head>
+
+<body>
+  <header>
+    <div class="container">
+      <h1 class="logo" th:each = "UserID : ${UserID}"></h1>
+      <nav >
+        <ul> 
+          <li><a th:href="@{/Home/{uid}(uid=${UserID.getUserID()})}">Home</a></li>
+          <li><a th:href="@{/About/{uid}(uid=${UserID.getUserID()})}">About</a></li>
+          <li><a th:href="@{/ShoppingList/{uid}(uid=${UserID.getUserID()})}">Shoppinglist</a></li>
+          <li><a id="log" th:href="@{/Login/{uid}(uid=${UserID.getUserID()})}">Login</a></li>
+          <li><a th:href="@{/Search/{uid}(uid=${UserID.getUserID()})}">Search</a></li>
+          <li><a th:href="@{/Messages/{uid}(uid=${UserID.getUserID()})}">Messages</a></li>
+          <li><a th:href="@{/PopularTime/{uid}(uid=${UserID.getUserID()})}">Search Store</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <div class="WhiteBox" th:each = "UserName : ${UserName}">
+    <div class="GreyBox" th:each = "UserID : ${UserID}">
+      <h3>Welcome User,</h3><h3 th:utext="${UserName.getUsername()}"></h3>
+      <div class="parent">
+        <div class="item">
+          <img src="../chesley-grocery-store-flyer-april-4-to-9-1.jpg" class="flyer" alt="flyer">
+          <span class="caption" style="font-size:30px">Flyer</span>
+        </div>
+        <div class="item2">
+          <img src="../210328-mik-us-t2-01.png" class="discount" alt="discount">
+          <span class="caption" style="font-size:30px">Discount</span>
+        </div>
+      </div>
+      <h1>Shop Grocery</h1>
+      <div class="catalog">
+        <div class="item">
+          <form method="post" th:action="@{/Searchcategory/{uid}(uid=${UserID.getUserID()})}" th:object="${item}">
+            <input type="hidden" th:name="category" value="Food">
+            <input type="image" src="../Good_Food_Display_-_NCI_Visuals_Online.jpg" alt="submit">
+            <span class="caption" style="font-size:30px">Food</span>
+          </form>
+        </div>
+        <div class="Electronics">
+          <form method="post" th:action="@{/Searchcategory/{uid}(uid=${UserID.getUserID()})}" th:object="${item}">
+            <input type="hidden" th:name="category" value="Electronics">
+            <input type="image" src="../Electronics-Shop-4.png" alt="submit">
+            <span class="caption" style="font-size:30px">Electronics</span>
+          </form>
+        </div>
+        <div class="HouseHold">
+          <form method="post" th:action="@{/Searchcategory/{uid}(uid=${UserID.getUserID()})}" th:object="${item}">
+            <input type="hidden" th:name="category" value="Kitchen">
+            <input type="image" src="../gettyimages-510693044-1550590816.jpg" alt="submit">
+            <span class="caption" style="font-size:30px">Kitchen</span>
+          </form>
+        </div>
+        <div class="Furniture">
+          <form method="post" th:action="@{/Searchcategory/{uid}(uid=${UserID.getUserID()})}" th:object="${item}">
+            <input type="hidden" th:name="category" value="Furniture">
+            <input type="image" src="../Furniture.jpg" alt="submit">
+            <span class="caption" style="font-size:30px">Furniture</span>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+
+</html>

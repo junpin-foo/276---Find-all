@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lan="en">
+
+<head>
+    <link rel="stylesheet" href="../stylesheets/shoppingList.css"/>
+    <script type="text/javascript" src="../logout.js"> defer</script>
+    <title>Shopping List</title>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+          <h1 class="logo" th:each="UserID : ${UserID}"></h1>
+          <nav>
+            <ul>
+              <li><a th:href="@{/Home/{uid}(uid=${UserID.getUserID()})}" >Home</a></li>
+              <li><a th:href="@{/About/{uid}(uid=${UserID.getUserID()})}">About</a></li>
+              <li><a th:href="@{/ShoppingList/{uid}(uid=${UserID.getUserID()})}">Shoppinglist</a></li>
+              <li><a id="log" th:href="@{/Login/{uid}(uid=${UserID.getUserID()})}">Login</a></li>
+              <li><a th:href="@{/Search/{uid}(uid=${UserID.getUserID()})}">Search</a></li>
+              <li><a th:href="@{/Messages/{uid}(uid=${UserID.getUserID()})}">Messages</a></li>
+              <li><a th:href="@{/PopularTime/{uid}(uid=${UserID.getUserID()})}">Search Store</a></li>
+            </ul>
+          </nav>
+        </div>
+      </header>
+    <div class="WhiteBox">
+
+        <div class="GreyBox">
+
+                <table class="AddTable" id="Table" >
+                    <thead>
+                        <tr >
+                            <th class = "RowOne">Name</th>
+                            <th class = "RowOne">Category</th>
+                            <th class = "RowOne">Price ($)</th>
+                            <th></th>
+                            <th id="checkboxHeader">Add to Recipe Search</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody >
+                        <tr th:each="records : ${records}" id="thisrow">
+                            
+                            <!-- <td><a href="#"  th:each="UserId : ${UserId}" th:href="@{/MyItem/{pid}/{uid}(uid=${records.getID()},pid=${UserId.getUserID()})}" th:utext="${records.getName()}"></a></td> -->
+                            <td><a th:each="UserId : ${UserID}" id="gettext" th:href="@{/MyItem/{pid}/{uid}(uid=${records.getID()},pid=${UserId.getUserID()})}" th:utext="${records.getName()}"></a></td>
+                            <td th:utext="${records.getCategory()}"></td>
+                            <td th:utext="${records.getPrice()}"></td>
+                            
+                            <form action="#" th:each="UserId : ${UserID}" method="post" th:action="@{/DELETEsp/{pid}/{uid}(uid=${records.getID()},pid=${UserId.getUserID()})}">
+                                <td><input type="submit" class="btnDelete" value="DELETE"></td>
+                            </form>       
+                            <td> <input type="checkbox" id="checkbox" th:value="${records.getName()}"> </td>              
+                        </tr>
+                    </tbody>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><input type="button" onclick="searchRecipe()" value="Search Recipe"></td>
+            </tr>
+                       
+                </table>
+<br>
+                <h3 id="recipeheader" ></h3>
+                <table  id="Table">
+                    <tr>
+                        <td class="recipeTable"> <a href="#" id="link0"><img src="" id="pic0" alt="first image"></a></td>
+                        <td class="recipeTable" id="name0">recipe1</td>
+                    </tr>
+
+                    <tr>
+                        <td class="recipeTable"> <a href="#" id="link1"><img src="" id="pic1" alt="first image"></a></td>
+                        <td class="recipeTable" id="name1">recipe2</td>
+                    </tr>
+
+                    <tr>
+                        <td class="recipeTable"> <a href="#" id="link2"><img src="" id="pic2" alt="first image"></a></td>
+                        <td class="recipeTable" id="name2">recipe3</td>
+                    </tr>
+                </table>
+
+        </div>
+    </div>
+    <script src="/recipe.js"></script>
+
+</body>
+</html>

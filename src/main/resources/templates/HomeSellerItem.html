@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lan="en"> <!-- renamed to Item page, used to be myPage -->
+
+<head>
+    <link rel="stylesheet" href="../public/stylesheets/myPage.css" th:href="@{/myPage.css}">
+    <title>Item</title>
+</head>
+
+<body>
+    <header>
+        <div class="container" >
+          <h1 class="logo" th:each="retUserId : ${retUserId}"></h1>
+          <nav >
+            <ul >
+              <li><a th:href="@{/Home/{uid}(uid=${retUserId.getUserID()})}" >Home</a></li>
+              <li><a th:href="@{/About/{uid}(uid=${retUserId.getUserID()})}">About</a></li>
+              <li><a th:href="@{/ShoppingList/{uid}(uid=${retUserId.getUserID()})}">Shoppinglist</a></li>
+              <li><a id="log" th:href="@{/Login/{uid}(uid=${retUserId.getUserID()})}">Login</a></li>
+              <li><a th:href="@{/Search/{uid}(uid=${retUserId.getUserID()})}">Search</a></li>
+              <li><a th:href="@{/Messages/{uid}(uid=${retUserId.getUserID()})}">Messages</a></li>
+              <li><a th:href="@{/PopularTime/{uid}(uid=${retUserId.getUserID()})}">Search Store</a></li>
+              <li><a th:href="@{/PopularTime/{uid}(uid=${retUserId.getUserID()})}">Search Store</a></li>
+            </ul>
+          </nav>
+        </div>
+      </header>
+    <div class="WhiteBox">
+
+        <h2>Item Profile Page</h2>
+        <div class="GreyBox">
+
+            <div>
+                <!-- add your image here -->
+            </div>
+
+
+            <table th:each="record : ${retItem}" class ="TableFormat">
+                
+                <tr>
+                    <th class = "RowOne">Name</th>
+                    <td th:utext="${record.getName()}" id="nameIn"></td>
+                </tr>
+                <tr>
+                    <th class = "RowOne">Description</th>
+                    <td th:utext="${record.getDescription()}" id="descriptionIn"></td>
+                </tr>
+                <tr>
+                    <th class = "RowOne">Category</th>
+                    <td th:utext="${record.getCategory()}" id="categoryIn"></td>
+                </tr>
+                <tr>
+                    <th class = "RowOne">Price</th>
+                    <td th:utext="${record.getPrice()}" id="priceIn"></td>
+                </tr>
+                <tr>
+                    <th class = "RowOne">Stock</th>
+                    <td th:utext="${record.getStock()}" id="stockIn"></td>
+                </tr>
+            </table>
+
+            <div id = "outer" th:each="record : ${retItem}" class="ButtonDiv">
+
+                <form>
+                <input type="button"  th:each="id : ${retUserId}" class="btn" value="Back" th:onclick="'window.location.href = \'' + @{/HomeSeller/{uid}(uid=${id.getUserID()})} + '\''">
+                </form>
+                <iframe name="votar" style="display:none;"></iframe>
+                <form action="#" method="post" th:each="id : ${retUserId}" th:action="@{/AddToShoppingListMyItem/{pid}/{uid}(uid=${record.getID()},pid=${id.getUserID()})}" target = "votar">
+                    <input type="submit" class="btnAdd" value="Add to Shopping List"></td>
+                </form>
+                <form action="#" method="post" th:each="id : ${retUserId}" th:action="@{/DELETEmi/{pid}/{uid}(uid=${record.getID()},pid=${id.getUserID()})}">
+                    <input type="submit" class="btnDelete" value="DELETE"></td>
+                </form>
+            </div>
+
+            <h2>Update Item Information</h2>
+
+            <div th:each="id : ${retUserId}">
+
+                <form action="#" method="post" th:each="record : ${retItem}" th:action="@{/UPDATEmi/{pid}/{uid}(uid=${record.getID()},pid=${id.getUserID()})}" th:object="${Item}">  <!--  target = "hiddenframe"-->
+
+                    <label>Name:</label><input type="text" th:value="${record.getName()}" name="Name" id ="Name"><br><br>
+
+                    <textarea type="text" th:text="${record.getDescription()}"  name = "Description" id = "Description" cols="30" rows="10" style="width: 300px; height: 200px; font-size: 20px;"></textarea> <br><br>
+
+                    <select name ="Category" id ="Cataegory" class="categoryBox">
+                        <option th:value="${record.getCategory()}"  selected hidden style="color: gray;" th:text="${record.getCategory()}">Choose Category..</option>
+                        <option value="Electronics" >Electronics</option>
+                        <option value="Food">Food</option>
+                        <option value="Kitchen">Kitchen</option>
+                        <option value="Furniture">Furniture</option>
+                        <option value="Miscellaneous">Miscellaneous</option>
+                    </select><br><br>
+
+                    <label>Price:</label><input type="number" th:value="${record.getPrice()}" name="Price" id = "Price" step="any" min="0"> <br><br>
+
+                    <label>Stock:</label><input type="number" th:value="${record.getStock()}" name="Stock" id = "Stock" step="1" min="1"> <br>
+
+                    <!--
+                    <p class="listingHeading">Upload Image of Item:</p>
+                    
+                    <input type="file" name="file" id="file"  accept= "image/*" class="sameSize"><br><br> -->
+                    <input type="submit" class="btnUpdate" value="UPDATE"></td>
+                </form>
+            </div>
+        
+        </div>
+    </div>
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+        //dom is fully loaded, but maybe waiting on images & css files
+        var links=document.getElementById("log").href;
+        console.log(links);
+        var length =links.length;
+        var lastelement = links[length-1];
+        console.log(lastelement);
+        
+        if(lastelement == null){
+            lastelement = 0;
+        }else{
+            if(parseInt(lastelement) > 0){
+            document.getElementById("log").href = "/logout/" + lastelement;
+            document.getElementById("log").innerHTML = "Logout";
+        }
+    }
+    });
+    
+    </script>
+
+
+
+</html>

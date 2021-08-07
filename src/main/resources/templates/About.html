@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lan="en">
+
+<head>
+    <link rel="stylesheet" href="../stylesheets/about.css"/>
+    <script type="text/javascript" src="../logout.js"> defer</script>
+    <title>About us</title>
+</head>
+
+<body>
+    <header>
+        <div class="container" >
+          <h1 class="logo" th:each="UserID : ${UserID}"></h1>
+          <nav >
+            <ul >
+              <li><a th:href="@{/Home/{uid}(uid=${UserID.getUserID()})}" >Home</a></li>
+              <li><a th:href="@{/About/{uid}(uid=${UserID.getUserID()})}">About</a></li>
+              <li><a th:href="@{/ShoppingList/{uid}(uid=${UserID.getUserID()})}">Shoppinglist</a></li>
+              <li><a id="log" th:href="@{/Login/{uid}(uid=${UserID.getUserID()})}">Login</a></li>
+              <li><a th:href="@{/Search/{uid}(uid=${UserID.getUserID()})}">Search</a></li>
+              <li><a th:href="@{/Messages/{uid}(uid=${UserID.getUserID()})}">Messages</a></li>
+              <li><a th:href="@{/PopularTime/{uid}(uid=${UserID.getUserID()})}">Search Store</a></li>
+            </ul>
+          </nav>
+        </div>
+      </header>
+    <div class="WhiteBox">
+        <h2>Find-all</h2>
+        <div class="GreyBox">
+            <h3>What do we do?</h3>
+            <p>Find-all is a web application that allows users to browse multiple stores inventory to find and purchase products at the desired price point. Additional features available for customers include a covid-19 hotspot detector and a transit route finder to their desired store. Find-all aims to provide a one stop online shopping experience for its users.</p>
+        
+        </div>
+    </div>
+</body>
+
+
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lan="en">
+
+<head>
+    <link rel="stylesheet" href="../stylesheets/search.css">
+    <script type="text/javascript" src="../logout.js"> defer</script>
+    <title>Search</title>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+          <h1 class="logo" th:each="UserID : ${UserID}"></h1>
+          <nav >
+            <ul >
+              <li><a th:href="@{/Home/{uid}(uid=${UserID.getUserID()})}" >Home</a></li>
+              <li><a th:href="@{/About/{uid}(uid=${UserID.getUserID()})}">About</a></li>
+              <li><a th:href="@{/ShoppingList/{uid}(uid=${UserID.getUserID()})}">Shoppinglist</a></li>
+              <li><a id="log" th:href="@{/Login/{uid}(uid=${UserID.getUserID()})}">Login</a></li>
+              <li><a th:href="@{/Search/{uid}(uid=${UserID.getUserID()})}">Search</a></li>
+              <li><a th:href="@{/Messages/{uid}(uid=${UserID.getUserID()})}">Messages</a></li>
+                <li><a th:href="@{/PopularTime/{uid}(uid=${UserID.getUserID()})}">Search Store</a></li>
+            </ul>
+          </nav>
+        </div>
+      </header>
+      <div class="WhiteBox">
+        <div class="GreyBox" th:each="userID: ${UserID}" >
+            <table id="myTable" class="myTable">
+                <tr>
+                    <form class="example" method="post" th:action="@{/Searchitem/{id}(id=${userID.getUserID()})}" th:object="${item}">
+                        <input id="searchbox" type="text" th:field=*{name} placeholder="Search.." name="search">
+                        <select id="categoryselect" th:field = *{category} class="categoryBox">
+                            <option value="ItemName"  selected hidden style="color: gray;">Choose Category..</option>
+                            <option value="Electronics" >Electronics</option>
+                            <option value="Food">Food</option>
+                            <option value="Kitchen">Kitchen</option>
+                            <option value="Furniture">Furniture</option>
+                            <option value="Miscellaneous">Miscellaneous</option>
+                        </select>
+                        <button id="searchbutton" type="submit"><i class="fa fa-search"></i>Search</button>
+                        
+                    </form>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Description</th>
+            </tr>
+            <tr th:each="product : ${product}">
+                <td><a th:href="@{/MyItem/{pid}/{uid}(uid=${product.getID()},pid=${userID.getUserID()})}" th:text="${product.getName()}"></a></td>
+                <td th:text="${product.getPrice()}"></td>
+                <td th:text="${product.getDescription()}"></td>
+            </tr>
+        </table>
+        </div>
+    </div>
+</body>
+</html>
